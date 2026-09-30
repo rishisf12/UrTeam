@@ -1,0 +1,22 @@
+services:
+  db:
+    image: postgres:15
+    container_name: teampilot-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: teampilot
+      POSTGRES_PASSWORD: teampilot_pw
+      POSTGRES_DB: teampilot
+    ports:
+      - "5433:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U teampilot -d teampilot"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+      start_period: 10s
+
+volumes:
+  pgdata:
